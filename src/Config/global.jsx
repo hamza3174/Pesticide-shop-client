@@ -1,6 +1,6 @@
 import { message } from "antd";
 
-window.api = "https://pesticide-shop-server.vercel.app/"
+window.api = "https://pesticide-shop-server.vercel.app"
 
 window.notify = (text, type) => {
     switch (type) {
