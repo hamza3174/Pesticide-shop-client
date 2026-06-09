@@ -4,6 +4,7 @@ import { Card, Button, InputNumber, message, Empty } from 'antd';
 import { FaCartShopping, FaTrashCan, FaPercent } from 'react-icons/fa6';
 import { useCartContext } from '../../../../Context/CartContext';
 
+
 const Cart = () => {
     const { cart = [], clearCart, updateCart } = useCartContext();
 

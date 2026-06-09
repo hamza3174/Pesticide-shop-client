@@ -19,6 +19,7 @@ import {
     FaReceipt,
 } from "react-icons/fa6";
 
+
 const Expense = () => {
 
     // ================= STATES =================

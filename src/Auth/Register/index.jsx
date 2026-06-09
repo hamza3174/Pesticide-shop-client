@@ -6,6 +6,8 @@ import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../Context/AuthContext'
 
+
+
 const Register = () => {
 
     const navigate = useNavigate();
