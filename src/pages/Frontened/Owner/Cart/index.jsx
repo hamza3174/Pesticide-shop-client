@@ -10,6 +10,7 @@ const Cart = () => {
 
     // ================= DISCOUNT PRICE STATE =================
     const [customPrices, setCustomPrices] = useState({});
+    const [checkoutLoading, setCheckoutLoading] = useState(false);
 
     // ================= GET FINAL PRICE =================
     const getFinalPrice = (item) => {
@@ -36,6 +37,8 @@ const Cart = () => {
     // ================= CHECKOUT =================
     const checkout = async () => {
         try {
+            setCheckoutLoading(true);
+
             const token = localStorage.getItem("token");
 
             const updatedCart = cart.map((item) => ({
@@ -47,18 +50,25 @@ const Cart = () => {
             await axios.post(
                 `${window.api}/checkout`,
                 { items: updatedCart },
-                { headers: { Authorization: `Bearer ${token}` } }
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
             );
 
             message.success("Order Completed Successfully");
             setCustomPrices({});
-            clearCart();
+            await clearCart();
+
         } catch (error) {
             console.error(error);
             message.error("Checkout Failed");
+
+        } finally {
+            setCheckoutLoading(false);
         }
     };
-
     return (
         <div className="min-h-screen bg-slate-50/50 p-4 sm:p-6 lg:p-8 text-slate-800 font-sans antialiased">
             <div className="max-w-5xl mx-auto space-y-6">
@@ -218,10 +228,11 @@ const Cart = () => {
                             type="primary"
                             size="large"
                             onClick={checkout}
-                            disabled={cart.length === 0}
+                            loading={checkoutLoading}
+                            disabled={cart.length === 0 || checkoutLoading}
                             className="h-12 w-full sm:w-auto rounded-xl px-8 font-extrabold text-sm tracking-wide uppercase shadow-md shadow-indigo-100 !bg-indigo-600 hover:!bg-indigo-700 border-none disabled:!bg-slate-200 disabled:!text-slate-400"
                         >
-                            Complete Checkout
+                            {checkoutLoading ? "Processing..." : "Complete Checkout"}
                         </Button>
                     </div>
 
